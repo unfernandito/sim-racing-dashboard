@@ -4,6 +4,41 @@ import { ArrayPacketParsed , packetParser , producer } from "@lib";
 import logger from "@lib/logger";
 
 const { PACKETS } = constants;
+let messages: ArrayPacketParsed = [];
+
+// eslint-disable-next-line import/prefer-default-export
+export const globalPacketParsed = async (msg: Buffer, remote: string): Promise<void> => {
+  const packetParsed = packetParser(msg);
+    
+  if(packetParsed){
+    if(packetParsed.message){
+      if(packetParsed.message.IsRaceOn === 1){
+        messages.push({
+          key: packetParsed.key,
+          value: JSON.stringify({
+            ...packetParsed.message, 
+            timestamp: packetParsed.timestamp, 
+            remote
+          })
+        })
+      }
+    }
+
+    if(messages.length === 60){
+      producer.send({
+        topic: packetParsed.topic,
+        messages,
+        timeout: 2000,
+      })
+      .then((responses) => {
+        logger.info('Published message', { responses })
+      })
+      .catch(logger.error)
+
+      messages = []  
+    }
+  }
+}
 
 async function main(){
   const server = dgram.createSocket("udp4");
@@ -30,40 +65,8 @@ async function main(){
     logger.error(`server error:\n${err.stack}`);
     server.close();
   });
-
-  let messages: ArrayPacketParsed = [];
-
-  server.on("message", async (msg, remote: string) => {
-    
-    const packetParsed = packetParser(msg);
-    
-    if(packetParsed){
-      if(packetParsed.message){
-      if(packetParsed.message.IsRaceOn === 1){
-        messages.push({
-          key: packetParsed.key,
-          value: JSON.stringify({...packetParsed.message, remote})
-        })
-      }
-    }
-
-      if(messages.length === 60){
-        producer.send({
-          topic: packetParsed.topic,
-          messages,
-          timeout: 2000,
-        })
-        .then((responses) => {
-
-          logger.log('Published message', { responses })
-        })
-        .catch(logger.error)
-
-        messages = []  
-      }
-  }
-
-  });
+  
+  server.on("message", globalPacketParsed);
 
   server.on("listening", () => {
     const address = server.address();

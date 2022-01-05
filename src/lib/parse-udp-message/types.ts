@@ -241,6 +241,7 @@ export type PacketParsed<T> = {
   key: string;
   topic: PacketTopic;
   message?: T;
+  timestamp: number;
 };
 
 export type ArrayPacketParsed = { 
