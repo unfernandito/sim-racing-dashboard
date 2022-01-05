@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "jest --watch --max-workers=50%",
+    "test:ci": "jest --runInBand --coverage",
     "start": "npm run build:dev",
     "build:dev": "NODE_ENV=development ts-node-dev -r tsconfig-paths/register src/index.ts 'src/index.ts' --exec 'ts-node' -e ts",
     "typescript": "tsc",
