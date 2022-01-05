@@ -1,0 +1,44 @@
+{
+  "env": {
+    "es2021": true,
+    "node": true
+  },
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "jest": {
+          "jestConfigFile": "./jest.config.ts"
+        },
+        "map": [
+          ["@lib", "./src/lib"],
+          ["@lib/*", "./src/lib/*"]
+        ],
+        "extensions": [".ts", ".test.ts", ".js"]
+      }
+    }
+  },
+  "extends": [
+    "airbnb-base",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly",
+    "jest": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+    "@typescript-eslint/no-shadow": "off",
+    "no-shadow": "off",
+    "import/extensions": "off"
+  }
+}

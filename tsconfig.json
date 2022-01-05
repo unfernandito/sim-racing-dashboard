@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "lib": ["ESNext", "dom"],
-    "outDir": "lib",
+		"lib": ["es2015", "es2019", "es2016", "dom", "es2017", "es6", "es5"],
+    "outDir": "./dist",
     "removeComments": true,
     "target": "ES6",
     "baseUrl": "./",
@@ -20,8 +20,15 @@
     "noImplicitReturns": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "strict": true,
+    "pretty": true,
+    "resolveJsonModule": true,
+    "module": "commonjs",
+    "declaration": true,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true
   },
-  "include": ["src/**/*.ts", "src/*.ts"],
-  "exclude": ["node_modules/**/*"]
+  "include": ["src"],
+  "exclude": ["node_modules", "jest.config.js", ".eslintrc.js", ".git"]
 }

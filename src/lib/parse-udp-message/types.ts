@@ -119,21 +119,21 @@ s8 NormalizedAIBrakeDifference;
 export enum FORZA_KEY_MAP {
   IsRaceOn = "int32le", // = 1 when race is on. = 0 when in menus/race stopped ‚Ä¶
 
-  TimestampMS = "uint32le", //Can overflow to 0 eventually
+  TimestampMS = "uint32le", // Can overflow to 0 eventually
   
   EngineMaxRpm = "floatle",
   EngineIdleRpm = "floatle",
   CurrentEngineRpm = "floatle",
   
-  AccelerationX = "floatle", //In the car's local space = "", X = right, Y = up, Z = forward
+  AccelerationX = "floatle", // In the car's local space = "", X = right, Y = up, Z = forward
   AccelerationY = "floatle",
   AccelerationZ = "floatle",
   
-  VelocityX = "floatle", //In the car's local space = "", X = right, Y = up, Z = forward
+  VelocityX = "floatle", // In the car's local space = "", X = right, Y = up, Z = forward
   VelocityY = "floatle",
   VelocityZ = "floatle",
   
-  AngularVelocityX = "floatle", //In the car's local space = "", X = pitch, Y = yaw, Z = roll
+  AngularVelocityX = "floatle", // In the car's local space = "", X = pitch, Y = yaw, Z = roll
   AngularVelocityY = "floatle",
   AngularVelocityZ = "floatle",
   
@@ -186,11 +186,11 @@ export enum FORZA_KEY_MAP {
   SuspensionTravelMetersRearLeft = "floatle",
   SuspensionTravelMetersRearRight = "floatle",
   
-  CarOrdinal = "int32le", //Unique ID of the car make/model
-  CarClass = "int32le", //Between 0 (D -- worst cars) and 7 (X class -- best cars) inclusive
-  CarPerformanceIndex = "int32le", //Between 100 (slowest car) and 999 (fastest car) inclusive
-  DrivetrainType = "int32le", //Corresponds to EDrivetrainType = "", 0 = FWD, 1 = RWD, 2 = AWD
-  NumCylinders = "int32le", //Number of cylinders in the engine
+  CarOrdinal = "int32le", // Unique ID of the car make/model
+  CarClass = "int32le", // Between 0 (D -- worst cars) and 7 (X class -- best cars) inclusive
+  CarPerformanceIndex = "int32le", // Between 100 (slowest car) and 999 (fastest car) inclusive
+  DrivetrainType = "int32le", // Corresponds to EDrivetrainType = "", 0 = FWD, 1 = RWD, 2 = AWD
+  NumCylinders = "int32le", // Number of cylinders in the engine
   
 
   PositionX = "floatle",
@@ -228,17 +228,22 @@ export enum FORZA_KEY_MAP {
   NormalizedAIBrakeDifference = "int8",
 }
 
+export const ForzaKeyMapValues = Object.keys(FORZA_KEY_MAP);
+
+export type ForzaMap = Record<keyof typeof FORZA_KEY_MAP, number | undefined>;
+
 export enum PacketTopic {
   FH = "FH",
   F1_2020 = "F1_2020"
 }
 
-export const ForzaKeyMapValues = Object.keys(FORZA_KEY_MAP);
-
-export type ForzaMap = Record<keyof typeof FORZA_KEY_MAP, number | undefined>;
-
 export type PacketParsed<T> = {
-  name: string;
+  key: string;
   topic: PacketTopic;
   message?: T;
-} | undefined;
+};
+
+export type ArrayPacketParsed = { 
+  key: string;
+  value: string;
+}[];

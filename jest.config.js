@@ -1,7 +1,7 @@
-import { pathsToModuleNameMapper } from "ts-jest/utils";
+const { pathsToModuleNameMapper } = require("ts-jest/utils");
 const { compilerOptions } = require("./tsconfig");
 
-export default {
+module.exports = {
   globals: {
     "ts-jest": {
       tsconfig: "tsconfig.json",

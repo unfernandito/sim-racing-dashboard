@@ -5,7 +5,10 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "jest --watch --max-workers=50%",
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts",
+    "typescript": "tsc",
+    "lint": "eslint src/**/*.ts --ignore-path .eslintignore --ext .ts",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
   },
   "keywords": [],
   "author": "",
@@ -13,13 +16,22 @@
   "devDependencies": {
     "@types/jest": "27.4.0",
     "@types/node": "17.0.7",
+    "@typescript-eslint/eslint-plugin": "5.9.0",
+    "@typescript-eslint/parser": "5.9.0",
+    "eslint": "8.6.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-import": "^2.25.4",
     "jest": "27.4.7",
+    "prettier": "2.5.1",
     "ts-jest": "27.1.2",
     "ts-node": "10.4.0"
   },
   "dependencies": {
     "@racehub-io/f1-telemetry-client": "^0.2.6",
     "binary-parser": "^2.0.2",
-    "kafkajs": "^1.15.0"
+    "kafkajs": "^1.15.0",
+    "winston": "^3.3.3"
   }
 }
