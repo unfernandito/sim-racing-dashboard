@@ -9,6 +9,7 @@ type packetParserResponse<T> = (packet: Buffer) => PacketParsed<UndefinedOrRespo
 export const packetParserFH: packetParserResponse<ForzaMap> = (
   packet: Buffer
 ) => {
+  const timestamp = Date.now();
   const parser = new Parser();
   const newData = Buffer.from([
     ...packet.slice(0, 232),
@@ -19,7 +20,12 @@ export const packetParserFH: packetParserResponse<ForzaMap> = (
     parser[FORZA_KEY_MAP[forzaKey as keyof typeof FORZA_KEY_MAP]](forzaKey);
   });
 
-  return { key: `fh_${Date.now().toString()}`, topic: PacketTopic.FH, message: parser.parse(newData) };
+  return { 
+    key: `fh_${timestamp.toString()}`, 
+    topic: PacketTopic.FH, 
+    message: parser.parse(newData),
+    timestamp
+  };
 };
 
 const PACKET_PARSER_MAP: Record<string, packetParserResponse<ForzaMap>> = {

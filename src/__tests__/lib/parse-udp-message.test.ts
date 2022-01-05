@@ -10,6 +10,7 @@ const DATE_NOW = 1487076708000;
 
 const PACKET_TEST_PARSED = {
   key: `fh_${DATE_NOW}`,
+  timestamp: DATE_NOW,
   message: {
     "Accel": 0,
     "AccelerationX": 0.32059910893440247,

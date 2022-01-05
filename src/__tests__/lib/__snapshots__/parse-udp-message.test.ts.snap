@@ -90,6 +90,7 @@ Object {
     "WheelRotationSpeedRearRight": 73.82879638671875,
     "Yaw": -2.169477701187134,
   },
+  "timestamp": 1487076708000,
   "topic": "FH",
 }
 `;
