@@ -1,10 +1,10 @@
-import { ForzaKeyMapValues, FH_PACKET_SIZE, FORZA_KEY_MAP } from "./types";
+import { ForzaKeyMapValues, FH_PACKET_SIZE, FORZA_KEY_MAP, PacketParsed, PacketTopic, ForzaMap } from './types';
 import { Parser } from "binary-parser";
 
 type UndefinedOrResponse<T> = T | undefined;
-type packetParserResponse<T> = (packet: Buffer) => UndefinedOrResponse<T>;
+type packetParserResponse<T> = (packet: Buffer) => PacketParsed<UndefinedOrResponse<T>>;
 
-export const packetParserFH: packetParserResponse<FORZA_KEY_MAP> = (
+export const packetParserFH: packetParserResponse<ForzaMap> = (
   packet: Buffer
 ) => {
   const parser = new Parser();
@@ -17,19 +17,21 @@ export const packetParserFH: packetParserResponse<FORZA_KEY_MAP> = (
     parser[FORZA_KEY_MAP[forzaKey]](forzaKey);
   });
 
-  return parser.parse(newData);
+  return { name: "fh_"+Date.now().toString(), topic: PacketTopic.FH, message: parser.parse(newData) };
 };
 
-const PACKET_PARSER_MAP: Record<string, packetParserResponse<FORZA_KEY_MAP>> = {
+const PACKET_PARSER_MAP: Record<string, packetParserResponse<ForzaMap>> = {
   [FH_PACKET_SIZE.toString()]: packetParserFH,
 };
 
-export const packetParser: packetParserResponse<FORZA_KEY_MAP> = (
+export const packetParser: packetParserResponse<ForzaMap> = (
   packet: Buffer
 ) => {
-  if (PACKET_PARSER_MAP[(packet.toString("hex").length / 2).toString()]) {
-    return packetParserFH(packet);
-  } else {
-    throw new Error("packet not recognized");
+  try{
+    const packetParsed = PACKET_PARSER_MAP[(packet.toString("hex").length / 2).toString()]?.(packet);
+    
+    return packetParsed;
+  } catch(error){
+    throw new Error("packet not recognized, " + error);
   }
 };

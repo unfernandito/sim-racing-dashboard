@@ -116,69 +116,6 @@ s8 Steer;
 s8 NormalizedDrivingLine;
 s8 NormalizedAIBrakeDifference;
 */
-
-export enum FORZA_MESSAGE_MAP {
-  raceOn = 0,
-  timestampMS = 4,
-  engineMaxRpm = 8,
-  engineIdleRpm = 12,
-  currentEngineRpm = 16,
-  accelerationX = 20,
-  accelerationY = 24,
-  accelerationZ = 28,
-  velocityX = 32, //In the car's local space; X = right, Y = up, Z = forward
-  velocityY = 36,
-  velocityZ = 40,
-  angularVelocityX = 44, //In the car's local space; X = pitch, Y = yaw, Z = roll
-  angularVelocityY = 48,
-  angularVelocityZ = 52,
-  yaw = 56,
-  pitch = 60,
-  roll = 64,
-  normalizedSuspensionTravelFrontLeft = 68, // Suspension travel normalized: 0.0f = max stretch; 1.0 = max compression
-  normalizedSuspensionTravelFrontRight = 72,
-  normalizedSuspensionTravelRearLeft = 76,
-  normalizedSuspensionTravelRearRight = 80,
-  tireSlipRatioFrontLeft = 84, // Tire normalized slip ratio, = 0 means 100% grip and |ratio| > 1.0 means loss of grip.
-  tireSlipRatioFrontRight = 88,
-  tireSlipRatioRearLeft = 92,
-  tireSlipRatioRearRight = 96,
-  wheelRotationSpeedFrontLeft = 100, // Wheel rotation speed radians/sec.
-  wheelRotationSpeedFrontRight = 110,
-  wheelRotationSpeedRearLeft = 114,
-  wheelRotationSpeedRearRight = 118,
-  wheelOnRumbleStripFrontLeft = 122, // = 1 when wheel is on rumble strip, = 0 when off.
-  wheelOnRumbleStripFrontRight = 126,
-  wheelOnRumbleStripRearLeft = 130,
-  wheelOnRumbleStripRearRight = 134,
-  wheelInPuddleDepthFrontLeft = 138, // = from 0 to 1, where 1 is the deepest puddle
-  wheelInPuddleDepthFrontRight = 142,
-  wheelInPuddleDepthRearLeft = 146,
-  wheelInPuddleDepthRearRight = 150,
-  surfaceRumbleFrontLeft = 154, // Non-dimensional surface rumble values passed to controller force feedback
-  surfaceRumbleFrontRight = 158,
-  surfaceRumbleRearLeft = 162,
-  surfaceRumbleRearRight = 166,
-  tireSlipAngleFrontLeft = 170, // Tire normalized slip angle, = 0 means 100% grip and |angle| > 1.0 means loss of grip.
-  tireSlipAngleFrontRight = 174,
-  tireSlipAngleRearLeft = 178,
-  tireSlipAngleRearRight = 182,
-  tireCombinedSlipFrontLeft = 186, // Tire normalized combined slip, = 0 means 100% grip and |slip| > 1.0 means loss of grip.
-  tireCombinedSlipFrontRight = 190,
-  tireCombinedSlipRearLeft = 194,
-  tireCombinedSlipRearRight = 198,
-  suspensionTravelMetersFrontLeft = 202, // Actual suspension travel in meters
-  suspensionTravelMetersFrontRight = 206,
-  suspensionTravelMetersRearLeft = 210,
-  suspensionTravelMetersRearRight = 214,
-  carOrdinal = 218, //Unique ID of the car make/model
-  carClass = 222, //Between 0 (D -- worst cars) and 7 (X class -- best cars) inclusive
-  carPerformanceIndex = 226, //Between 100 (slowest car) and 999 (fastest car) inclusive
-  drivetrainType = 230, //Corresponds to EDrivetrainType; 0 = FWD, 1 = RWD, 2 = AWD
-  numCylinders = 234, //Number of cylinders in the engine
-}
-
-
 export enum FORZA_KEY_MAP {
   IsRaceOn = "int32le", // = 1 when race is on. = 0 when in menus/race stopped ‚Ä¶
 
@@ -291,6 +228,17 @@ export enum FORZA_KEY_MAP {
   NormalizedAIBrakeDifference = "int8",
 }
 
+export enum PacketTopic {
+  FH = "FH",
+  F1_2020 = "F1_2020"
+}
+
 export const ForzaKeyMapValues = Object.keys(FORZA_KEY_MAP);
 
-export type ForzaMap = keyof FORZA_MESSAGE_MAP;
+export type ForzaMap = Record<keyof typeof FORZA_KEY_MAP, number | undefined>;
+
+export type PacketParsed<T> = {
+  name: string;
+  topic: PacketTopic;
+  message?: T;
+} | undefined;
