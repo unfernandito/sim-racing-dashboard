@@ -1,10 +1,10 @@
-export const PACKET_SIZE = 324;
+export const FH_PACKET_SIZE = 324;
 
 /**
  * UDP Datagram struct
  s32 IsRaceOn; // = 1 when race is on. = 0 when in menus/race stopped ‚Ä¶
 
-u32 TimestampMS; //Can overflow to 0 eventually
+TimestampMS; //uint32leCan overflow to 0 eventually
 
 f32 EngineMaxRpm;
 f32 EngineIdleRpm;
@@ -117,7 +117,7 @@ s8 NormalizedDrivingLine;
 s8 NormalizedAIBrakeDifference;
 */
 
-export enum MESSAGE_MAP {
+export enum FORZA_MESSAGE_MAP {
   raceOn = 0,
   timestampMS = 4,
   engineMaxRpm = 8,
@@ -177,3 +177,120 @@ export enum MESSAGE_MAP {
   drivetrainType = 230, //Corresponds to EDrivetrainType; 0 = FWD, 1 = RWD, 2 = AWD
   numCylinders = 234, //Number of cylinders in the engine
 }
+
+
+export enum FORZA_KEY_MAP {
+  IsRaceOn = "int32le", // = 1 when race is on. = 0 when in menus/race stopped ‚Ä¶
+
+  TimestampMS = "uint32le", //Can overflow to 0 eventually
+  
+  EngineMaxRpm = "floatle",
+  EngineIdleRpm = "floatle",
+  CurrentEngineRpm = "floatle",
+  
+  AccelerationX = "floatle", //In the car's local space = "", X = right, Y = up, Z = forward
+  AccelerationY = "floatle",
+  AccelerationZ = "floatle",
+  
+  VelocityX = "floatle", //In the car's local space = "", X = right, Y = up, Z = forward
+  VelocityY = "floatle",
+  VelocityZ = "floatle",
+  
+  AngularVelocityX = "floatle", //In the car's local space = "", X = pitch, Y = yaw, Z = roll
+  AngularVelocityY = "floatle",
+  AngularVelocityZ = "floatle",
+  
+  Yaw = "floatle",
+  Pitch = "floatle",
+  Roll = "floatle",
+  
+  NormalizedSuspensionTravelFrontLeft = "floatle", // Suspension travel normalized= 0.0f = max stretch = "", 1.0 = max compression
+  NormalizedSuspensionTravelFrontRight = "floatle",
+  NormalizedSuspensionTravelRearLeft = "floatle",
+  NormalizedSuspensionTravelRearRight = "floatle",
+  
+  TireSlipRatioFrontLeft = "floatle", // Tire normalized slip ratio, = 0 means 100% grip and |ratio| > 1.0 means loss of grip.
+  TireSlipRatioFrontRight = "floatle",
+  TireSlipRatioRearLeft = "floatle",
+  TireSlipRatioRearRight = "floatle",
+  
+  WheelRotationSpeedFrontLeft = "floatle", // Wheel rotation speed radians/sec.
+  WheelRotationSpeedFrontRight = "floatle",
+  WheelRotationSpeedRearLeft = "floatle",
+  WheelRotationSpeedRearRight = "floatle",
+  
+  IheelOnRumbleStripFrontLeft = "int32le", // = 1 when wheel is on rumble strip, = 0 when off.
+  IheelOnRumbleStripFrontRight = "int32le",
+  IheelOnRumbleStripRearLeft = "int32le",
+  IheelOnRumbleStripRearRight = "int32le",
+  
+  WheelInPuddleDepthFrontLeft = "floatle", // = from 0 to 1, where 1 is the deepest puddle
+  WheelInPuddleDepthFrontRight = "floatle",
+  WheelInPuddleDepthRearLeft = "floatle",
+  WheelInPuddleDepthRearRight = "floatle",
+  
+  SurfaceRumbleFrontLeft = "floatle", // Non-dimensional surface rumble values passed to controller force feedback
+  SurfaceRumbleFrontRight = "floatle",
+  SurfaceRumbleRearLeft = "floatle",
+  SurfaceRumbleRearRight = "floatle",
+  
+  TireSlipAngleFrontLeft = "floatle", // Tire normalized slip angle, = 0 means 100% grip and |angle| > 1.0 means loss of grip.
+  TireSlipAngleFrontRight = "floatle",
+  TireSlipAngleRearLeft = "floatle",
+  TireSlipAngleRearRight = "floatle",
+  
+  TireCombinedSlipFrontLeft = "floatle", // Tire normalized combined slip, = 0 means 100% grip and |slip| > 1.0 means loss of grip.
+  TireCombinedSlipFrontRight = "floatle",
+  TireCombinedSlipRearLeft = "floatle",
+  TireCombinedSlipRearRight = "floatle",
+  
+  SuspensionTravelMetersFrontLeft = "floatle", // Actual suspension travel in meters
+  SuspensionTravelMetersFrontRight = "floatle",
+  SuspensionTravelMetersRearLeft = "floatle",
+  SuspensionTravelMetersRearRight = "floatle",
+  
+  CarOrdinal = "int32le", //Unique ID of the car make/model
+  CarClass = "int32le", //Between 0 (D -- worst cars) and 7 (X class -- best cars) inclusive
+  CarPerformanceIndex = "int32le", //Between 100 (slowest car) and 999 (fastest car) inclusive
+  DrivetrainType = "int32le", //Corresponds to EDrivetrainType = "", 0 = FWD, 1 = RWD, 2 = AWD
+  NumCylinders = "int32le", //Number of cylinders in the engine
+  
+
+  PositionX = "floatle",
+  PositionY = "floatle",
+  PositionZ = "floatle",
+  
+  Speed = "floatle", // meters per second
+  Power = "floatle", // watts
+  Torque = "floatle", // newton meter
+  
+  TireTempFrontLeft = "floatle",
+  TireTempFrontRight = "floatle",
+  TireTempRearLeft = "floatle",
+  TireTempRearRight = "floatle",
+  
+  Boost = "floatle",
+  Fuel = "floatle",
+  DistanceTraveled = "floatle",
+  BestLap = "floatle",
+  LastLap = "floatle",
+  CurrentLap = "floatle",
+  CurrentRaceTime = "floatle",
+  
+  LapNumber = "uint16le",
+  RacePosition = "uint8",
+  
+  Accel = "uint8",
+  Brake = "uint8",
+  Clutch = "uint8",
+  HandBrake = "uint8",
+  Gear = "uint8",
+  Steer = "int8",
+  
+  NormalizedDrivingLine = "int8",
+  NormalizedAIBrakeDifference = "int8",
+}
+
+export const ForzaKeyMapValues = Object.keys(FORZA_KEY_MAP);
+
+export type ForzaMap = keyof FORZA_MESSAGE_MAP;
