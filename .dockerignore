@@ -1,0 +1,15 @@
+node_modules/
+*.log
+influxdb2/
+influxv2.env
+ssl/
+configuration.env
+configuration.env.example
+jest.config.js
+SECURITY.md
+README.md
+Dockerfile
+Dockerfile.production
+telegraf/
+docker-compose.yml
+prometheus/
