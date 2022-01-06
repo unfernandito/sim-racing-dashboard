@@ -3,9 +3,9 @@ version: '3.7'
 volumes:
     prometheus_data: {}
     grafana_data: {}
+    influxdb2:
 
 networks:
-  front-tier:
   back-tier:
 
 services:
@@ -112,3 +112,25 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
     restart: always
+
+  influxdb:
+    image: influxdb:latest
+    env_file: configuration.env
+    volumes:
+      - influxdb2:/var/lib/influxdb2:rw
+    ports:
+      - "8086:8086"
+  
+  telegraf:
+    image: telegraf:alpine
+    env_file: configuration.env
+    volumes:
+      - ./telegraf/etc/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    depends_on:
+      - influxdb
+    links:
+      - influxdb:influxdb
+      - kafka:kafka
+    ports:
+    - '127.0.0.1:8125:8125/udp'
+
