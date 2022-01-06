@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "lib": ["es2015", "es2019", "es2016", "dom", "es2017", "es6", "es5"],
+    "outDir": "./dist",
+    "removeComments": true,
+    "target": "ES6",
+    "baseUrl": "./",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "paths": {
+      "@lib": ["src/lib"],
+      "@lib/*": ["src/lib/*"]
+    },
+    "sourceMap": true,
+    "sourceRoot": "./src/",
+    "alwaysStrict": true,
+    "allowUnreachableCode": false,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strict": true,
+    "pretty": true,
+    "resolveJsonModule": true,
+    "module": "commonjs",
+    "declaration": true,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true
+  },
+  "include": ["src"],
+  "exclude": [
+    "node_modules",
+    "jest.config.js",
+    ".eslintrc.js",
+    ".git",
+    "src/**/*.test.ts"
+  ]
+}

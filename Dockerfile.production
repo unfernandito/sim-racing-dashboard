@@ -1,0 +1,15 @@
+FROM node:16-alpine
+
+ENV NODE_ENV production
+
+WORKDIR app
+
+COPY package.json .
+COPY package-lock.json .
+
+RUN npm ci --production
+
+COPY dist/ .
+
+EXPOSE 41234/udp
+EXPOSE 20777/udp

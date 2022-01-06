@@ -134,3 +134,16 @@ services:
     ports:
     - '127.0.0.1:8125:8125/udp'
 
+  simracingproducer:
+    build: 
+      context: .
+      dockerfile: Dockerfile.production
+    env_file: configuration.env
+    command: node index.js
+    depends_on:
+      - kafka
+    links:
+      - kafka:kafka
+    ports:
+      - 20777:20777/udp
+      - 41234:41234/udp

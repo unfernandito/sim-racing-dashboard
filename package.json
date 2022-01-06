@@ -1,16 +1,20 @@
 {
   "name": "forza-data-catcher",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
+    "build": "npm run clean && npm run typescript:production && npm run replace-path",
     "test": "jest --watch --max-workers=50%",
     "test:ci": "jest --runInBand --coverage",
     "start": "npm run build:dev",
     "build:dev": "NODE_ENV=development ts-node-dev -r tsconfig-paths/register src/index.ts 'src/index.ts' --exec 'ts-node' -e ts",
     "typescript": "tsc",
+    "typescript:production": "tsc -p tsconfig.production.json",
+    "replace-path": "tsconfig-replace-paths --project tsconfig.production.json -s ./src -o ./dist",
     "lint": "eslint src/**/*.ts --ignore-path .eslintignore --ext .ts",
-    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
+    "clean": "rimraf dist"
   },
   "keywords": [],
   "author": "unfernandito",
@@ -29,8 +33,10 @@
     "prettier": "2.5.1",
     "ts-jest": "27.1.2",
     "ts-node": "10.4.0",
-    "ts-node-dev": "^1.1.8",
-    "tsconfig-paths": "^3.12.0"
+    "ts-node-dev": "1.1.8",
+    "tsconfig-paths": "3.12.0",
+    "tsconfig-replace-paths": "0.0.11",
+    "typescript": "4.3.4"
   },
   "dependencies": {
     "@racehub-io/f1-telemetry-client": "0.2.6",

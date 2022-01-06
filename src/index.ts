@@ -42,9 +42,22 @@ export const globalPacketParsed = async (msg: Buffer, remote: string): Promise<v
 
 async function main(){
   const server = dgram.createSocket("udp4");
-  const client = new F1TelemetryClient({ port: 20777 });
+  
   await producer.connect();
 
+  server.on("error", (err: Error) => {
+    logger.error(`server error:\n${err.stack}`);
+    server.close();
+  });
+  
+  server.on("message", globalPacketParsed);
+
+  server.on("listening", () => {
+    const address = server.address();
+    logger.info(`server listening ${address.address}:${address.port}`);
+  });
+
+  const client = new F1TelemetryClient({ port: 20777 });
   client.on(PACKETS.event, logger.log);
   client.on(PACKETS.motion, logger.log);
   client.on(PACKETS.carSetups, logger.log);
@@ -60,19 +73,6 @@ async function main(){
 
   // to start listening:
   client.start();
-
-  server.on("error", (err: Error) => {
-    logger.error(`server error:\n${err.stack}`);
-    server.close();
-  });
-  
-  server.on("message", globalPacketParsed);
-
-  server.on("listening", () => {
-    const address = server.address();
-    logger.info(`server listening ${address.address}:${address.port}`);
-  });
-
   server.bind(41234);
 }
 
