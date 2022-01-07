@@ -20,10 +20,12 @@ export const packetParserFH: packetParserResponse<ForzaMap> = (
     parser[FORZA_KEY_MAP[forzaKey as keyof typeof FORZA_KEY_MAP]](forzaKey);
   });
 
+  const key = `fh_${timestamp.toString()}`;
+
   return { 
-    key: `fh_${timestamp.toString()}`, 
+    key, 
     topic: PacketTopic.FH, 
-    message: parser.parse(newData),
+    message: {id: key, ...parser.parse(newData)},
     timestamp
   };
 };

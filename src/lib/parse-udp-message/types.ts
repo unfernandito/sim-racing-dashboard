@@ -156,10 +156,10 @@ export enum FORZA_KEY_MAP {
   WheelRotationSpeedRearLeft = "floatle",
   WheelRotationSpeedRearRight = "floatle",
   
-  IheelOnRumbleStripFrontLeft = "int32le", // = 1 when wheel is on rumble strip, = 0 when off.
-  IheelOnRumbleStripFrontRight = "int32le",
-  IheelOnRumbleStripRearLeft = "int32le",
-  IheelOnRumbleStripRearRight = "int32le",
+  WheelOnRumbleStripFrontLeft = "int32le", // = 1 when wheel is on rumble strip, = 0 when off.
+  WheelOnRumbleStripFrontRight = "int32le",
+  WheelOnRumbleStripRearLeft = "int32le",
+  WheelOnRumbleStripRearRight = "int32le",
   
   WheelInPuddleDepthFrontLeft = "floatle", // = from 0 to 1, where 1 is the deepest puddle
   WheelInPuddleDepthFrontRight = "floatle",
