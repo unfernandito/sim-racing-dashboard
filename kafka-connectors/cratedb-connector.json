@@ -1,0 +1,13 @@
+{
+  "name": "cratedb-connector",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "topics": "FH",
+    "connection.url": "jdbc:postgresql://cratedb:5432/doc?user=crate",
+    "tasks.max": 3,
+    "insert.mode": "insert",
+    "table.name.format": "telemetry",
+    "auto.create": "true",
+    "auto.evolve": "true"
+  }
+}
