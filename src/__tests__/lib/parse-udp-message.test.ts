@@ -36,10 +36,10 @@ const PACKET_TEST_PARSED = {
     "Fuel": 0.9611140489578247,
     "Gear": 3,
     "HandBrake": 0,
-    "IheelOnRumbleStripFrontLeft": 0,
-    "IheelOnRumbleStripFrontRight": 0,
-    "IheelOnRumbleStripRearLeft": 0,
-    "IheelOnRumbleStripRearRight": 0,
+    "WheelOnRumbleStripFrontLeft": 0,
+    "WheelOnRumbleStripFrontRight": 0,
+    "WheelOnRumbleStripRearLeft": 0,
+    "WheelOnRumbleStripRearRight": 0,
     "IsRaceOn": 1,
     "LapNumber": 0,
     "LastLap": 0,
@@ -98,6 +98,7 @@ const PACKET_TEST_PARSED = {
     "WheelRotationSpeedRearLeft": 73.84416198730469,
     "WheelRotationSpeedRearRight": 73.82879638671875,
     "Yaw": -2.169477701187134,
+    "id": "fh_1487076708000"
   },
   topic: "FH"
 };
