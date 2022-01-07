@@ -51,8 +51,8 @@ jobs:
       run: echo ${{ steps.buildx.outputs.platforms }}
     - name: Build typescript
       uses: actions/setup-node@v1
-        with:
-          node-version: 16
+      with:
+        node-version: 16
       run: npm install
       run: npm run test
       run: npm run build --if-present
