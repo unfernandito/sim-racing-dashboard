@@ -1,13 +1,7 @@
 version: '3.7'
 
 volumes:
-    prometheus_data: {}
     grafana_data: {}
-    influxdb2:
-    flinkvolume: 
-
-networks:
-  back-tier:
 
 services:
   zookeeper:
@@ -85,26 +79,6 @@ services:
         #
         sleep infinity
 
-  kafka-connect-ui:
-    image: landoop/kafka-connect-ui:latest
-    ports:
-      - "8002:8000"
-    environment:
-      CONNECT_URL: "http://connect:8083/"
-      PROXY: "true"
-    depends_on:
-      - connect
-
-  schema-registry-ui:
-    image: landoop/schema-registry-ui:latest
-    ports:
-      - "8004:8000"
-    environment:
-      SCHEMAREGISTRY_URL: "http://schemaregistry:8081/"
-      PROXY: "true"
-    depends_on:
-      - schemaregistry
-
   schemaregistry:
     image: confluentinc/cp-schema-registry:latest
     depends_on:
@@ -137,6 +111,26 @@ services:
       KAFKA_REST_DEBUG: "true"
     ports:
       - 8082:8082
+  
+  kafka-connect-ui:
+    image: landoop/kafka-connect-ui:latest
+    ports:
+      - "8002:8000"
+    environment:
+      CONNECT_URL: "http://connect:8083/"
+      PROXY: "true"
+    depends_on:
+      - connect
+
+  schema-registry-ui:
+    image: landoop/schema-registry-ui:latest
+    ports:
+      - "8004:8000"
+    environment:
+      SCHEMAREGISTRY_URL: "http://schemaregistry:8081/"
+      PROXY: "true"
+    depends_on:
+      - schemaregistry
 
   kafka-ui:
     image: provectuslabs/kafka-ui
@@ -153,41 +147,6 @@ services:
       - KAFKA_CLUSTERS_0_NAME=kafka-local-0
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
       - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
-
-  prometheus:
-    image: prom/prometheus:v2.1.0
-    volumes:
-      - ./prometheus/:/etc/prometheus/
-      - prometheus_data:/prometheus
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
-      - '--web.console.templates=/usr/share/prometheus/consoles'
-    ports:
-      - 9090:9090
-    networks:
-      - back-tier
-    restart: always
-
-  node-exporter:
-    image: prom/node-exporter
-    volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-      - /:/rootfs:ro
-    command: 
-      - '--path.procfs=/host/proc' 
-      - '--path.sysfs=/host/sys'
-      - --collector.filesystem.ignored-mount-points
-      - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
-    ports:
-      - 9100:9100
-    networks:
-      - back-tier
-    restart: always
-    deploy:
-      mode: global
 
   grafana:
     image: grafana/grafana
