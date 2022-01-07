@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+  schemaregistry:
+    image: confluentinc/cp-schema-registry:5.2.1
+    env_file: configuration.env
+    restart: always
+    ports:
+      - 8081:8081
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui
+    ports:
+      - "8080:8080"
+    restart: always
+    env_file: configuration.env
+  
+  simracingproducer:
+    build: 
+      context: .
+      dockerfile: Dockerfile.production
+    env_file: configuration.env
+    command: node index.js
+    ports:
+      - 20777:20777/udp
+      - 41234:41234/udp
