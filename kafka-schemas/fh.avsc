@@ -1,6 +1,6 @@
 {
   "namespace": "cratedb.metrics",
-  "name": "fh_value",
+  "name": "fh_telemetry_message",
   "type": "record",
   "fields": [
     {
