@@ -20,7 +20,7 @@ jobs:
         cache-dependency-path: 'sim-racing-producer/package-lock.json'
     - run: npm ci
       working-directory: sim-racing-producer
-    - run: npm test:ci
+    - run: npm run test:ci
       working-directory: sim-racing-producer
 
   eslint:
