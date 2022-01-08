@@ -7,7 +7,7 @@ COPY package-lock.json .
 
 RUN npm ci
 
-COPY .eslint.json .eslint.json
+COPY .eslintrc.json .eslintrc.json
 COPY tsconfig.json tsconfig.json
 COPY ./src/ ./src/
 
