@@ -1,3 +1,18 @@
+FROM node:16-alpine as build
+
+WORKDIR /usr/src/app
+
+COPY package.json .
+COPY package-lock.json .
+
+RUN npm ci
+
+COPY .eslint.json .eslint.json
+COPY tsconfig.json tsconfig.json
+COPY ./src/ ./src/
+
+RUN npm run build
+
 FROM node:16-alpine
 
 ENV NODE_ENV production
@@ -9,7 +24,7 @@ COPY package-lock.json .
 
 RUN npm ci --production
 
-COPY dist/ .
+COPY --from=build /usr/src/app/dist ./dist
 
 EXPOSE 41234/udp
 EXPOSE 20777/udp
