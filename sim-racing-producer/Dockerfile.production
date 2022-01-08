@@ -8,7 +8,7 @@ COPY package-lock.json .
 RUN npm ci
 
 COPY .eslintrc.json .eslintrc.json
-COPY tsconfig.json tsconfig.json
+COPY tsconfig.production.json tsconfig.production.json
 COPY ./src/ ./src/
 
 RUN npm run build
