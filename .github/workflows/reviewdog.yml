@@ -22,6 +22,8 @@ jobs:
       working-directory: sim-racing-producer
     - run: npm run test:ci
       working-directory: sim-racing-producer
+    - run: npm run typescript
+      working-directory: sim-racing-producer
 
   eslint:
     name: runner / eslint

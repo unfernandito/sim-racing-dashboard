@@ -3,7 +3,6 @@ import { F1TelemetryClient, constants } from "@racehub-io/f1-telemetry-client";
 import {
   ArrayPacketParsed,
   globalPacketParsed,
-  packetParser,
   PacketTopic,
   producer,
 } from "@lib";
