@@ -66,16 +66,17 @@ services:
       CONNECT_PLUGIN_PATH: /usr/share/java,/usr/share/confluent-hub-components,/data/connect-jars
     volumes:
       - $PWD/kafka-connect/data:/data
+      - $PWD/kafka-connectors/cratedb-connector.json:/data/cratedb-connector.json
     command:
       - bash
       - -c
       - |
         echo "Installing Connector"
         confluent-hub install --no-prompt confluentinc/kafka-connect-jdbc:10.0.0 
-        confluent-hub install --no-prompt neo4j/kafka-connect-neo4j:2.0.0
         #
         echo "Launching Kafka Connect worker"
         /etc/confluent/docker/run &
+        curl -X POST -H "Content-Type:application/json" -d @data/cratedb-connector.json http://localhost:8083/connectors
         #
         sleep infinity
 
@@ -150,7 +151,7 @@ services:
 
   grafana:
     image: grafana/grafana
-    link:
+    links:
       - cratedb:cratedb
       - kafka:kafka
     ports:
@@ -178,7 +179,7 @@ services:
       restart_policy:
         condition: on-failure
     environment:
-      - CRATE_HEAP_SIZE=2g
+      - CRATE_HEAP_SIZE=1g
 
   simracingproducer:
     build: 
