@@ -1,55 +1,17 @@
 import dgram from "dgram";
-import {
-  F1TelemetryClient,
-  constants
-} from "@racehub-io/f1-telemetry-client";
+import { F1TelemetryClient, constants } from "@racehub-io/f1-telemetry-client";
 import {
   ArrayPacketParsed,
+  globalPacketParsed,
   packetParser,
-  producer
+  PacketTopic,
+  producer,
 } from "@lib";
 import logger from "@lib/logger";
 
-const {
-  PACKETS
-} = constants;
+const { PACKETS } = constants;
+
 let messages: ArrayPacketParsed = [];
-
-// eslint-disable-next-line import/prefer-default-export
-export const globalPacketParsed = async (msg: Buffer, remote: string): Promise < void > => {
-  const packetParsed = packetParser(msg);
-logger.info(msg)
-  if (packetParsed) {
-    if (packetParsed.message) {
-      if (packetParsed.message.IsRaceOn === 1) {
-        messages.push({
-          key: packetParsed.key,
-          value: JSON.stringify({
-            ...packetParsed.message,
-            timestamp: packetParsed.timestamp,
-            remote
-          })
-        })
-      }
-    }
-
-    if (messages.length === 60) {
-      producer.send({
-          topic: packetParsed.topic,
-          messages,
-          timeout: 2000,
-        })
-        .then((responses) => {
-          logger.info('Published message', {
-            responses
-          })
-        })
-        .catch(logger.error)
-
-      messages = []
-    }
-  }
-}
 
 async function main() {
   await producer.connect();
@@ -57,7 +19,7 @@ async function main() {
   // to start listening:
   if (process.env.F1_LISTEN === "true") {
     const client = new F1TelemetryClient({
-      port: 20777
+      port: 20777,
     });
     client.on(PACKETS.event, logger.log);
     client.on(PACKETS.motion, logger.log);
@@ -75,7 +37,7 @@ async function main() {
     client.start();
   }
 
-  // if (process.env.FH_LISTEN === "true") {
+  if (process.env.FH_LISTEN === "true") {
     const server = dgram.createSocket("udp4");
 
     server.on("error", (err: Error) => {
@@ -83,15 +45,33 @@ async function main() {
       server.close();
     });
 
-    server.on("message", globalPacketParsed);
+    server.on("message", (msg, remote) => {
+      globalPacketParsed(msg, remote, messages);
+
+      if (messages.length === Number(process.env.QUEUE_MESSAGES_QTY ?? "60")) {
+        producer
+          .send({
+            topic: PacketTopic.FH,
+            messages,
+            timeout: 2000,
+          })
+          .then((responses) => {
+            logger.info("Published message", {
+              responses,
+            });
+          })
+          .catch(logger.error);
+
+        messages = [];
+      }
+    });
 
     server.on("listening", () => {
       const address = server.address();
       logger.info(`server listening ${address.address}:${address.port}`);
     });
     server.bind(41234);
-  // }
+  }
 }
 
-main()
-  .catch(logger.error);
+main().catch(logger.error);

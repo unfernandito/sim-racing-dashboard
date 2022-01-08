@@ -1,5 +1,5 @@
-node_modules/
-dist/
+sim-racing-producer/node_modules/
+sim-racing-producer/dist/
 *.log
 influxdb2/
 influxv2.env

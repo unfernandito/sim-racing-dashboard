@@ -183,7 +183,7 @@ services:
 
   simracingproducer:
     build: 
-      context: .
+      context: ./sim-racing-producer
       dockerfile: Dockerfile.production
     env_file: configuration.env
     command: node index.js
