@@ -1,6 +1,6 @@
 {
   "name": "forza-data-catcher",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -40,6 +40,7 @@
   },
   "dependencies": {
     "@racehub-io/f1-telemetry-client": "0.2.6",
+    "avsc": "^5.7.3",
     "binary-parser": "2.0.2",
     "kafkajs": "1.15.0",
     "winston": "3.3.3"
