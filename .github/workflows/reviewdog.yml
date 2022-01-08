@@ -17,6 +17,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        working-directory: sim-racing-producer
     - run: npm ci
       working-directory: sim-racing-producer
     - run: npm test
