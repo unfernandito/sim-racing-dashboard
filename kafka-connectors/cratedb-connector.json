@@ -5,9 +5,13 @@
     "topics": "FH",
     "connection.url": "jdbc:postgresql://cratedb:5432/doc?user=crate",
     "tasks.max": 3,
-    "insert.mode": "insert",
     "table.name.format": "telemetry",
     "auto.create": "true",
-    "auto.evolve": "true"
+    "auto.evolve": "true",
+    "value.converter": "io.confluent.connect.avro.AvroConverter",
+    "value.converter.schema.registry.url": "http://schemaregistry:8081",
+    "insert.mode": "upsert",
+    "pk.mode": "record_value",
+    "pk.fields": "id"
   }
 }

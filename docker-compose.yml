@@ -39,6 +39,7 @@ services:
       - zookeeper
       - kafka
       - cratedb
+      - schemaregistry
     ports:
       - 8083:8083
       - 8888:8888
@@ -98,6 +99,28 @@ services:
     ports:
       - 8081:8081
 
+  control-center:
+    image: confluentinc/cp-enterprise-control-center:7.0.1
+    hostname: control-center
+    container_name: control-center
+    depends_on:
+      - kafka
+      - schemaregistry
+      - connect
+    ports:
+      - "9021:9021"
+    environment:
+      CONTROL_CENTER_BOOTSTRAP_SERVERS: 'kafka:9092'
+      CONTROL_CENTER_CONNECT_CONNECT-DEFAULT_CLUSTER: 'connect:8083'
+      # CONTROL_CENTER_KSQL_KSQLDB1_URL: "http://ksqldb-server:8088"
+      # CONTROL_CENTER_KSQL_KSQLDB1_ADVERTISED_URL: "http://localhost:8088"
+      CONTROL_CENTER_SCHEMA_REGISTRY_URL: "http://schemaregistry:8081"
+      CONTROL_CENTER_REPLICATION_FACTOR: 1
+      CONTROL_CENTER_INTERNAL_TOPICS_PARTITIONS: 1
+      CONTROL_CENTER_MONITORING_INTERCEPTOR_TOPIC_PARTITIONS: 1
+      CONFLUENT_METRICS_TOPIC_REPLICATION: 1
+      PORT: 9021
+
   restproxy:
     image: confluentinc/cp-kafka-rest:latest 
     depends_on:
@@ -112,42 +135,6 @@ services:
       KAFKA_REST_DEBUG: "true"
     ports:
       - 8082:8082
-  
-  kafka-connect-ui:
-    image: landoop/kafka-connect-ui:latest
-    ports:
-      - "8002:8000"
-    environment:
-      CONNECT_URL: "http://connect:8083/"
-      PROXY: "true"
-    depends_on:
-      - connect
-
-  schema-registry-ui:
-    image: landoop/schema-registry-ui:latest
-    ports:
-      - "8004:8000"
-    environment:
-      SCHEMAREGISTRY_URL: "http://schemaregistry:8081/"
-      PROXY: "true"
-    depends_on:
-      - schemaregistry
-
-  kafka-ui:
-    image: provectuslabs/kafka-ui
-    ports:
-      - "8080:8080"
-    restart: always
-    depends_on:
-      - kafka
-      - zookeeper
-    links:
-      - kafka:kafka
-      - zookeeper:zookeeper
-    environment:
-      - KAFKA_CLUSTERS_0_NAME=kafka-local-0
-      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
-      - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
 
   grafana:
     image: grafana/grafana
@@ -186,7 +173,7 @@ services:
       context: ./sim-racing-producer
       dockerfile: Dockerfile.production
     env_file: configuration.env
-    command: node index.js
+    command: node ./dist/index.js
     depends_on:
       - kafka
     links:

@@ -18,207 +18,207 @@ export const FHMessageType = avro.Type.forSchema({
     },
     {
       name: "EngineMaxRpm",
-      type: "int",
+      type: "float",
     },
     {
       name: "EngineIdleRpm",
-      type: "int",
+      type: "float",
     },
     {
       name: "CurrentEngineRpm",
-      type: "int",
+      type: "float",
     },
     {
       name: "AccelerationX",
-      type: "int",
+      type: "float",
     },
     {
       name: "AccelerationY",
-      type: "int",
+      type: "float",
     },
     {
       name: "AccelerationZ",
-      type: "int",
+      type: "float",
     },
     {
       name: "VelocityX",
-      type: "int",
+      type: "float",
     },
     {
       name: "VelocityY",
-      type: "int",
+      type: "float",
     },
     {
       name: "VelocityZ",
-      type: "int",
+      type: "float",
     },
     {
       name: "AngularVelocityX",
-      type: "int",
+      type: "float",
     },
     {
       name: "AngularVelocityY",
-      type: "int",
+      type: "float",
     },
     {
       name: "AngularVelocityZ",
-      type: "int",
+      type: "float",
     },
     {
       name: "Yaw",
-      type: "int",
+      type: "float",
     },
     {
       name: "Pitch",
-      type: "int",
+      type: "float",
     },
     {
       name: "Roll",
-      type: "int",
+      type: "float",
     },
     {
       name: "NormalizedSuspensionTravelFrontLeft",
-      type: "int",
+      type: "float",
     },
     {
       name: "NormalizedSuspensionTravelFrontRight",
-      type: "int",
+      type: "float",
     },
     {
       name: "NormalizedSuspensionTravelRearLeft",
-      type: "int",
+      type: "float",
     },
     {
       name: "NormalizedSuspensionTravelRearRight",
-      type: "int",
+      type: "float",
     },
     {
       name: "TireSlipRatioFrontLeft",
-      type: "int",
+      type: "float",
     },
     {
       name: "TireSlipRatioFrontRight",
-      type: "int",
+      type: "float",
     },
     {
       name: "TireSlipRatioRearLeft",
-      type: "int",
+      type: "float",
     },
     {
       name: "TireSlipRatioRearRight",
-      type: "int",
+      type: "float",
     },
     {
       name: "WheelRotationSpeedFrontLeft",
-      type: "int",
+      type: "float",
     },
     {
       name: "WheelRotationSpeedFrontRight",
-      type: "int",
+      type: "float",
     },
     {
       name: "WheelRotationSpeedRearLeft",
-      type: "int",
+      type: "float",
     },
     {
       name: "WheelRotationSpeedRearRight",
+      type: "float",
+    },
+    {
+      name: "WheelOnRumbleStripFrontLeft",
       type: "int",
     },
     {
-      name: "IheelOnRumbleStripFrontLeft",
+      name: "WheelOnRumbleStripFrontRight",
       type: "int",
     },
     {
-      name: "IheelOnRumbleStripFrontRight",
+      name: "WheelOnRumbleStripRearLeft",
       type: "int",
     },
     {
-      name: "IheelOnRumbleStripRearLeft",
-      type: "int",
-    },
-    {
-      name: "IheelOnRumbleStripRearRight",
+      name: "WheelOnRumbleStripRearRight",
       type: "int",
     },
     {
       name: "WheelInPuddleDepthFrontLeft",
-      type: "int",
+      type: "float",
     },
     {
       name: "WheelInPuddleDepthFrontRight",
-      type: "int",
+      type: "float",
     },
     {
       name: "WheelInPuddleDepthRearLeft",
-      type: "int",
+      type: "float",
     },
     {
       name: "WheelInPuddleDepthRearRight",
-      type: "int",
+      type: "float",
     },
     {
       name: "SurfaceRumbleFrontLeft",
-      type: "int",
+      type: "float",
     },
     {
       name: "SurfaceRumbleFrontRight",
-      type: "int",
+      type: "float",
     },
     {
       name: "SurfaceRumbleRearLeft",
-      type: "int",
+      type: "float",
     },
     {
       name: "SurfaceRumbleRearRight",
-      type: "int",
+      type: "float",
     },
     {
       name: "TireSlipAngleFrontLeft",
-      type: "int",
+      type: "float",
     },
     {
       name: "TireSlipAngleFrontRight",
-      type: "int",
+      type: "float",
     },
     {
       name: "TireSlipAngleRearLeft",
-      type: "int",
+      type: "float",
     },
     {
       name: "TireSlipAngleRearRight",
-      type: "int",
+      type: "float",
     },
     {
       name: "TireCombinedSlipFrontLeft",
-      type: "int",
+      type: "float",
     },
     {
       name: "TireCombinedSlipFrontRight",
-      type: "int",
+      type: "float",
     },
     {
       name: "TireCombinedSlipRearLeft",
-      type: "int",
+      type: "float",
     },
     {
       name: "TireCombinedSlipRearRight",
-      type: "int",
+      type: "float",
     },
     {
       name: "SuspensionTravelMetersFrontLeft",
-      type: "int",
+      type: "float",
     },
     {
       name: "SuspensionTravelMetersFrontRight",
-      type: "int",
+      type: "float",
     },
     {
       name: "SuspensionTravelMetersRearLeft",
-      type: "int",
+      type: "float",
     },
     {
       name: "SuspensionTravelMetersRearRight",
-      type: "int",
+      type: "float",
     },
     {
       name: "CarOrdinal",
@@ -242,71 +242,71 @@ export const FHMessageType = avro.Type.forSchema({
     },
     {
       name: "PositionX",
-      type: "int",
+      type: "float",
     },
     {
       name: "PositionY",
-      type: "int",
+      type: "float",
     },
     {
       name: "PositionZ",
-      type: "int",
+      type: "float",
     },
     {
       name: "Speed",
-      type: "int",
+      type: "float",
     },
     {
       name: "Power",
-      type: "int",
+      type: "float",
     },
     {
       name: "Torque",
-      type: "int",
+      type: "float",
     },
     {
       name: "TireTempFrontLeft",
-      type: "int",
+      type: "float",
     },
     {
       name: "TireTempFrontRight",
-      type: "int",
+      type: "float",
     },
     {
       name: "TireTempRearLeft",
-      type: "int",
+      type: "float",
     },
     {
       name: "TireTempRearRight",
-      type: "int",
+      type: "float",
     },
     {
       name: "Boost",
-      type: "int",
+      type: "float",
     },
     {
       name: "Fuel",
-      type: "int",
+      type: "float",
     },
     {
       name: "DistanceTraveled",
-      type: "int",
+      type: "float",
     },
     {
       name: "BestLap",
-      type: "int",
+      type: "float",
     },
     {
       name: "LastLap",
-      type: "int",
+      type: "float",
     },
     {
       name: "CurrentLap",
-      type: "int",
+      type: "float",
     },
     {
       name: "CurrentRaceTime",
-      type: "int",
+      type: "float",
     },
     {
       name: "LapNumber",
