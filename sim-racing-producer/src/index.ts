@@ -13,64 +13,70 @@ const { PACKETS } = constants;
 let messages: ArrayPacketParsed = [];
 
 async function main() {
-  await producer.connect();
+  try {
+    await producer.connect();
 
-  // to start listening:
-  if (process.env.F1_LISTEN === "true") {
-    const client = new F1TelemetryClient({
-      port: 20777,
-    });
-    client.on(PACKETS.event, logger.log);
-    client.on(PACKETS.motion, logger.log);
-    client.on(PACKETS.carSetups, logger.log);
-    client.on(PACKETS.lapData, logger.log);
-    client.on(PACKETS.session, logger.log);
-    client.on(PACKETS.participants, logger.log);
-    client.on(PACKETS.carTelemetry, logger.log);
-    client.on(PACKETS.carStatus, logger.log);
-    client.on(PACKETS.finalClassification, logger.log);
-    client.on(PACKETS.lobbyInfo, logger.log);
-    client.on(PACKETS.carDamage, logger.log);
-    client.on(PACKETS.sessionHistory, logger.log);
+    if (process.env.FH_LISTEN === "true") {
+      const server = dgram.createSocket("udp4");
 
-    client.start();
-  }
+      server.on("error", (err: Error) => {
+        logger.error(`server error:\n${err.stack}`);
+        server.close();
+      });
 
-  if (process.env.FH_LISTEN === "true") {
-    const server = dgram.createSocket("udp4");
+      server.on("message", (msg, remote) => {
+        globalPacketParsed(msg, remote, messages);
 
-    server.on("error", (err: Error) => {
-      logger.error(`server error:\n${err.stack}`);
-      server.close();
-    });
+        if (
+          messages.length === Number(process.env.QUEUE_MESSAGES_QTY ?? "60")
+        ) {
+          producer
+            .send({
+              topic: PacketTopic.FH,
+              messages,
+              timeout: 2000,
+            })
+            .then((responses) => {
+              logger.info("Published message", {
+                responses,
+              });
+            })
+            .catch(logger.error);
 
-    server.on("message", (msg, remote) => {
-      globalPacketParsed(msg, remote, messages);
+          messages = [];
+        }
+      });
 
-      if (messages.length === Number(process.env.QUEUE_MESSAGES_QTY ?? "60")) {
-        producer
-          .send({
-            topic: PacketTopic.FH,
-            messages,
-            timeout: 2000,
-          })
-          .then((responses) => {
-            logger.info("Published message", {
-              responses,
-            });
-          })
-          .catch(logger.error);
+      server.on("listening", () => {
+        const address = server.address();
+        logger.info(`server listening ${address.address}:${address.port}`);
+      });
+      server.bind(Number(process.env.PORT_FH ?? "41234"));
+    }
 
-        messages = [];
-      }
-    });
+    // to start listening:
+    if (process.env.F1_LISTEN === "true") {
+      const client = new F1TelemetryClient({
+        port: 20777,
+      });
+      client.on(PACKETS.event, console.log);
+      client.on(PACKETS.motion, console.log);
+      client.on(PACKETS.carSetups, console.log);
+      client.on(PACKETS.lapData, console.log);
+      client.on(PACKETS.session, console.log);
+      client.on(PACKETS.participants, console.log);
+      client.on(PACKETS.carTelemetry, console.log);
+      client.on(PACKETS.carStatus, console.log);
+      client.on(PACKETS.finalClassification, console.log);
+      client.on(PACKETS.lobbyInfo, console.log);
+      client.on(PACKETS.carDamage, console.log);
+      client.on(PACKETS.sessionHistory, console.log);
 
-    server.on("listening", () => {
-      const address = server.address();
-      logger.info(`server listening ${address.address}:${address.port}`);
-    });
-    server.bind(41234);
+      client.start();
+    }
+  } catch (err) {
+    logger.error(err);
   }
 }
 
-main().catch(logger.error);
+main().then(logger.info).catch(logger.error);
