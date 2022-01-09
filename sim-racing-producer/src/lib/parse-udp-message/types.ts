@@ -245,6 +245,7 @@ export type PacketParsed<T> = {
 
 export type ArrayPacketParsed = {
   key: string;
+  version: string | "latest";
+  subject: string;
   value: Buffer | string;
 }[];
-

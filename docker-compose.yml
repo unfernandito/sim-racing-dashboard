@@ -74,6 +74,7 @@ services:
       - |
         echo "Installing Connector"
         confluent-hub install --no-prompt confluentinc/kafka-connect-jdbc:10.0.0 
+        confluent-hub install --no-prompt jcustenborder/kafka-connect-transform-common:latest
         #
         echo "Launching Kafka Connect worker"
         /etc/confluent/docker/run &
