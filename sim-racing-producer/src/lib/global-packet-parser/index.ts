@@ -26,7 +26,7 @@ export const globalPacketParsed = (
     messages.push({
       key: packetParsed.key,
       version: "latest",
-      subject: packetParsed.topic + "-subject",
+      subject: `${packetParsed.topic  }-subject`,
       value: encodeFunction(
         {
           ...packetParsed.message,
